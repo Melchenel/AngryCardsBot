@@ -1,11 +1,13 @@
 package ru.bot.angrycards;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import ru.bot.angrycards.facades.TelegramFacade;
 
 public class AngryCardsBot extends TelegramWebhookBot {
 
@@ -13,14 +15,31 @@ public class AngryCardsBot extends TelegramWebhookBot {
     private String botUserName;
     private String botToken;
 
+    @Autowired
+    private TelegramFacade telegramFacade;
+
+    public AngryCardsBot(DefaultBotOptions options) {
+        super(options);
+    }
+
     @Override
     public BotApiMethod onWebhookUpdateReceived(Update update) {
 
         if(update.getMessage() != null && update.getMessage().hasText()){
+
+           // SendMessage sendMessage = telegramFacade.handleMessage(update);
+
             long chatId = update.getMessage().getChatId();
 
             try{
-                execute(new SendMessage(chatId, "hello " + update.getMessage().getText()));
+                SendMessage sendMessage = new SendMessage();
+              //  execute(new SendMessage(chatId, "hello " + update.getMessage().getText()));
+                sendMessage.setText(update.getMessage().toString());
+                sendMessage.setChatId(update.getMessage().getChatId().toString());
+                execute(sendMessage);
+               // execute(new SendMessage(chatId, update.getMessage().getChat().getUserName()));
+                //execute(new SendMessage(chatId, update.getMessage().getChatId().toString()));
+               // execute(new SendMessage(chatId, update.getMessage().getNewChatMembers().toString()));
             }
             catch (TelegramApiException e){
                 e.getMessage();
@@ -29,9 +48,6 @@ public class AngryCardsBot extends TelegramWebhookBot {
         return null;
     }
 
-    public AngryCardsBot(DefaultBotOptions options) {
-        super(options);
-    }
 
     @Override
     public String getBotUsername() {
