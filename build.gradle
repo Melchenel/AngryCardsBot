@@ -30,6 +30,9 @@ dependencies {
     }
 
     compile group: 'org.telegram', name: 'telegrambots-spring-boot-starter', version: '4.4.0.2'
+    // https://mvnrepository.com/artifact/org.telegram/telegramapi
+    compile group: 'org.telegram', name: 'telegramapi', version: '66.2'
+
 }
 
 test {

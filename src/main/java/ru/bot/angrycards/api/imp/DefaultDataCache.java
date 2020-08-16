@@ -11,7 +11,7 @@ import java.util.Map;
 @Component
 public class DefaultDataCache implements DataCache {
     private Map<Integer, BotState> usersBotStates = new HashMap<>();
-    private Map<Integer, UserDTO> users = new HashMap<>();
+    private static Map<Integer, UserDTO> users = new HashMap<>();
 
     @Override
     public void setBotStateCurrentForCurrentUser(int userId, BotState botState) {
@@ -22,7 +22,7 @@ public class DefaultDataCache implements DataCache {
     public BotState getBotStateForCurrentUser(int userId) {
         BotState botState = usersBotStates.get(userId);
         if(botState == null){
-            botState = BotState.START;
+            botState = BotState.FILLING_PLAYERS;
         }
         return botState;
     }

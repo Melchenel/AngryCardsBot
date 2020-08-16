@@ -14,5 +14,7 @@ public enum BotState {
     ADD_BLACK_CARD,
     ADD_WHITE_CARDS,
     END,
-    SWOW_RESULT
+    SWOW_RESULT,
+    FILLING_PLAYERS,
+    USER_READY
 }

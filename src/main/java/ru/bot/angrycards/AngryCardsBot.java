@@ -1,14 +1,19 @@
 package ru.bot.angrycards;
 
+
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.telegram.api.chat.TLChat;
+import org.telegram.api.engine.TelegramApi;
 import org.telegram.telegrambots.bots.DefaultBotOptions;
 import org.telegram.telegrambots.bots.TelegramWebhookBot;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
 import ru.bot.angrycards.facades.TelegramFacade;
 
+@Setter
 public class AngryCardsBot extends TelegramWebhookBot {
 
     private String webHookPath;
@@ -18,36 +23,17 @@ public class AngryCardsBot extends TelegramWebhookBot {
     @Autowired
     private TelegramFacade telegramFacade;
 
+
+
     public AngryCardsBot(DefaultBotOptions options) {
         super(options);
     }
 
     @Override
-    public BotApiMethod onWebhookUpdateReceived(Update update) {
+    public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
 
-        if(update.getMessage() != null && update.getMessage().hasText()){
-
-           // SendMessage sendMessage = telegramFacade.handleMessage(update);
-
-            long chatId = update.getMessage().getChatId();
-
-            try{
-                SendMessage sendMessage = new SendMessage();
-              //  execute(new SendMessage(chatId, "hello " + update.getMessage().getText()));
-                sendMessage.setText(update.getMessage().toString());
-                sendMessage.setChatId(update.getMessage().getChatId().toString());
-                execute(sendMessage);
-               // execute(new SendMessage(chatId, update.getMessage().getChat().getUserName()));
-                //execute(new SendMessage(chatId, update.getMessage().getChatId().toString()));
-               // execute(new SendMessage(chatId, update.getMessage().getNewChatMembers().toString()));
-            }
-            catch (TelegramApiException e){
-                e.getMessage();
-            }
-        }
-        return null;
+        return telegramFacade.handleMessage(update);
     }
-
 
     @Override
     public String getBotUsername() {
@@ -64,15 +50,4 @@ public class AngryCardsBot extends TelegramWebhookBot {
         return botToken;
     }
 
-    public void setWebHookPath(String webHookPath) {
-        this.webHookPath = webHookPath;
-    }
-
-    public void setBotUserName(String botUserName) {
-        this.botUserName = botUserName;
-    }
-
-    public void setBotToken(String botToken) {
-        this.botToken = botToken;
-    }
 }

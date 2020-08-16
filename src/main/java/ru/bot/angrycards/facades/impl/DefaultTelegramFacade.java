@@ -44,6 +44,8 @@ public class DefaultTelegramFacade implements TelegramFacade {
         BotState botState;
 
         switch (inputMessage){
+            case "/+":
+                botState = BotState.FILLING_PLAYERS;
             case "/start":
                 botState = BotState.START;
             case "/restart":
