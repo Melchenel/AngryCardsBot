@@ -30,7 +30,7 @@ public class FillingPlayersHandler implements InputMessageHandler {
 
         SendMessage sendMessage;
 
-        if( Players.players.get(userId) == null){
+        if( Players.players.get(userId) == null ){
             Players.players.put(userId, createUserInfo(message));
 
             log.info(Players.players.toString());
@@ -39,10 +39,10 @@ public class FillingPlayersHandler implements InputMessageHandler {
 
             log.info("BotState:   " + dataCache.getBotStateForCurrentUser(userId).toString());
 
-            sendMessage = new SendMessage(chatId, "Игрок" + message.getFrom().getFirstName());
+            sendMessage = new SendMessage(chatId, "Игрок " + message.getFrom().getFirstName() + message.getFrom().getLastName()  +" добавлен в игру");
         }
         else {
-            sendMessage = new SendMessage(chatId, "Игрок" + message.getFrom().getFirstName()  +" уже добавлен в игру");
+            sendMessage = new SendMessage(chatId, "Игрок " + message.getFrom().getFirstName() + message.getFrom().getLastName()  +" уже в игре");
         }
         return sendMessage;
     }

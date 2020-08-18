@@ -46,24 +46,34 @@ public class DefaultTelegramFacade implements TelegramFacade {
         switch (inputMessage){
             case "/+":
                 botState = BotState.FILLING_PLAYERS;
-            case "/start":
+                break;
+            case "/startGame":
                 botState = BotState.START;
+                break;
             case "/restart":
                 botState = BotState.RESTART;
+                break;
             case "Показать количество очков":
                 botState = BotState.SHOW_WIN;
+                break;
             case "Получить черную карту":
                 botState = BotState.ADD_BLACK_CARD;
+                break;
             case "Получить белые карты":
                 botState = BotState.ADD_WHITE_CARDS;
+                break;
             case "Выложить белую карту ":
                 botState = BotState.SHOW_NAME_GAME;
+                break;
             case "Показать результат":
                 botState = BotState.SWOW_RESULT;
+                break;
             case "Закончить игру":
                 botState = BotState.END;
+                break;
             case "Показать правила игры":
                 botState = BotState.SHOW_RULES_OF_GAME;
+                break;
             default:
                 botState = dataCache.getBotStateForCurrentUser(userId);
                 break;
