@@ -24,12 +24,14 @@ public class StartGameHandler implements InputMessageHandler {
         SendMessage sendMessage;
 
         if(Players.players.size() != 0 && Players.players !=null){
-            Players.players.get(message.getFrom().getId()).setIsLeader(true);
+
+            initFirstLeader(message);
 
             sendMessage = new SendMessage(message.getChatId(),
                     message.getFrom().getUserName() + " ведущий. Выложите черную карту");
 
-            log.info(Players.players.toString());
+            log.info("Игрок " + message.getFrom().getFirstName() + message.getFrom().getFirstName()
+                    + "получил черную карту");
 
             dataCache.setBotStateCurrentForCurrentUser(message.getFrom().getId(), BotState.SHOW_BLACK_CARD);
 
@@ -48,5 +50,12 @@ public class StartGameHandler implements InputMessageHandler {
     @Override
     public BotState getHandlerName() {
         return BotState.START;
+    }
+
+    private void initFirstLeader(Message message){
+
+        Players.players.get(message.getFrom().getId()).setIsLeader(true);
+        Players.players.get(message.getFrom().getId()).setBlackCart("Лучшее воспоминание детства это ___");
+
     }
 }
